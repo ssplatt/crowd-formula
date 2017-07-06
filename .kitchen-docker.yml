@@ -1,0 +1,28 @@
+# vim: ft=yaml
+---
+driver:
+  name: docker
+
+provisioner:
+  name: salt_solo
+  formula: crowd
+  state_top:
+    base:
+      "*":
+        - crowd
+
+platforms:
+  - name: debian-8
+
+suites:
+  - name: default
+
+  - name: custom
+    provisioner:
+      pillars-from-files:
+        crowd.sls: pillar-custom.sls
+      pillars:
+        top.sls:
+          base:
+            "*":
+              - crowd

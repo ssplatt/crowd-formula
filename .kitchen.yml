@@ -1,0 +1,31 @@
+# vim: ft=yaml
+---
+driver:
+  name: vagrant
+  customize: 
+    memory: 1024
+
+provisioner:
+  name: salt_solo
+  formula: crowd
+  state_top:
+    base:
+      "*":
+        - crowd
+
+platforms:
+  - name: bento/debian-8.3
+
+suites:
+  - name: default
+
+  - name: custom
+    provisioner:
+      pillars-from-files:
+        crowd.sls: pillar-custom.sls
+      pillars:
+        top.sls:
+          base:
+            "*":
+              - crowd
+
