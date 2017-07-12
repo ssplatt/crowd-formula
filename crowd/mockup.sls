@@ -27,6 +27,11 @@ crowd_mockup_install_mariadb:
   pkg.installed:
     - name: mariadb-server
 
+crowd_mockup_start_mariadb:
+  service.running:
+    - name: mysql
+    - enable: true
+
 crowd_mockup_setup_sql_db:
   mysql_database.present:
     - name: crowd
