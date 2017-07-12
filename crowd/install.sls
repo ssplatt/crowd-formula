@@ -11,32 +11,12 @@ crowd_pkg:
     - tar_options: ''
     - if_missing: /opt/{{ crowd.app_name }}-{{ crowd.version }}
 
-crowd_data_dir:
-  file.directory:
-    - name: /var/atlassian
-    - user: root
-    - group: root
-    - mode: 755
-
-{% if crowd.mockup %}
-debian_backports_repo:
-  pkgrepo.managed:
-    - humanname: Debian Backports
-    - name: deb http://http.debian.net/debian jessie-backports main
-    - file: /etc/apt/sources.list.d/jessie-backports.list
-
-crowd_user:
-  user.present:
-    - name: crowd
-    - gid_from_name: true
-    - home: /var/atlassian/crowd
-    - shell: /bin/sh
-
-crowd_mockup_install_mariadb:
+crowd_install_required_java:
   pkg.installed:
-    - name: mariadb-server
-    
-crowd_mockup_install_mysql_connector:
+    - name: {{ crowd.required_java }}
+    - fromrepo: {{ crowd.required_pkgs_repo }}
+
+crowd_install_mysql_connector:
   archive.extracted:
     - name: /root/
     - source: http://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.38.tar.gz
@@ -45,29 +25,10 @@ crowd_mockup_install_mysql_connector:
     - tar_options: ''
     - if_missing: /root/mysql-connector-java-5.1.38
     
-crowd_mockup_copy_mysql_connector:
+crowd_copy_mysql_connector:
   cmd.run:
     - name: cp /root/mysql-connector-java-5.1.38/mysql-connector-java-5.1.38-bin.jar /opt/{{ crowd.app_name }}-{{ crowd.version }}/apache-tomcat/lib/
     - unless: test -f /opt/{{ crowd.app_name }}-{{ crowd.version }}/apache-tomcat/lib/mysql-connector-java-5.1.38-bin.jar
-
-crowd_mockup_setup_sql_db:
-  mysql_database.present:
-    - name: crowd
-    
-crowd_mockup_setup_sql_user:
-  mysql_user.present:
-    - name: crowduser
-    - host: localhost
-    - password: crowdpassword
-    - connection_charset: utf8
-    
-crowd_mockup_sql_grants:
-  mysql_grants.present:
-    - grant: all privileges
-    - database: crowd.*
-    - user: crowduser
-    - host: localhost
-{% endif %}
 
 crowd_install_dir_permissions:
   file.directory:
@@ -78,7 +39,3 @@ crowd_install_dir_permissions:
     - recurse:
       - user
       - group
-
-crowd_install_required_java:
-  pkg.installed:
-    - name: {{ crowd.required_java }}

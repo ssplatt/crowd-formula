@@ -2,8 +2,6 @@
 ---
 driver:
   name: vagrant
-  customize: 
-    memory: 1024
 
 provisioner:
   name: salt_solo
@@ -14,7 +12,7 @@ provisioner:
         - crowd
 
 platforms:
-  - name: bento/debian-8.3
+  - name: bento/debian-8.8
 
 suites:
   - name: default
