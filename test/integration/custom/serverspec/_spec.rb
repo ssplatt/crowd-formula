@@ -12,7 +12,7 @@ describe file("/opt/atlassian-crowd") do
   it { should exist }
 end
 
-describe file("/opt/atlassian-crowd-2.8.4") do
+describe file("/opt/atlassian-crowd-2.12.0") do
   it { should be_directory }
   it { should exist }
   it { should be_owned_by 'crowd' }
@@ -20,7 +20,7 @@ describe file("/opt/atlassian-crowd-2.8.4") do
   it { should be_mode 755 }
 end
 
-describe file("/opt/atlassian-crowd-2.8.4/apache-tomcat/lib/mysql-connector-java-5.1.38-bin.jar") do
+describe file("/opt/atlassian-crowd-2.12.0/apache-tomcat/lib/mysql-connector-java-5.1.38-bin.jar") do
   it { should exist }
   it { should be_file }
   it { should be_owned_by 'crowd' }
@@ -28,12 +28,12 @@ describe file("/opt/atlassian-crowd-2.8.4/apache-tomcat/lib/mysql-connector-java
   it { should be_mode 644 }
 end
 
-describe file("/etc/init.d/crowd") do
+describe file("/lib/systemd/system/crowd.service") do
   it { should exist }
   it { should be_file }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
-  it { should be_mode 755 }
+  it { should be_mode 644 }
 end
 
 describe service("crowd") do

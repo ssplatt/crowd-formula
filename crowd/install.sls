@@ -8,7 +8,7 @@ crowd_pkg:
     - source: https://www.atlassian.com/software/crowd/downloads/binary/{{ crowd.app_name }}-{{ crowd.version }}.tar.gz
     - source_hash: sha256={{ crowd.pkg_hash }}
     - archive_format: tar
-    - tar_options: ''
+    - options: 'zxf'
     - if_missing: /opt/{{ crowd.app_name }}-{{ crowd.version }}
 
 crowd_install_required_java:
@@ -22,7 +22,7 @@ crowd_install_mysql_connector:
     - source: http://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.38.tar.gz
     - source_hash: md5=8f8e768a91338328f2ac5cd6b6683c88
     - archive_format: tar
-    - tar_options: ''
+    - options: 'zxf'
     - if_missing: /root/mysql-connector-java-5.1.38
     
 crowd_copy_mysql_connector:

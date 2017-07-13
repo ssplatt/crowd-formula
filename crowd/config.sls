@@ -16,7 +16,25 @@ crowd_init_properties_config:
     - mode: 0644
     - template: jinja
 
-crowd_autostart_script:
+{% if grains.init == 'systemd' %}
+crowd_systemd_script:
+  file.managed:
+    - name: /lib/systemd/system/crowd.service
+    - source: salt://crowd/files/systemd_crowd.j2
+    - template: jinja
+    - user: root
+    - group: root
+    - mode: 0644
+    - watch_in:
+      - service: crowd_service
+
+crowd_systemd_daemon_reload:
+  cmd.run:
+    - name: systemctl daemon-reload
+    - onchanges:
+      - file: crowd_systemd_script
+{% else %}
+crowd_initd_script:
   file.managed:
     - name: /etc/init.d/crowd
     - source: salt://crowd/files/initd_crowd.j2
@@ -24,13 +42,6 @@ crowd_autostart_script:
     - user: root
     - group: root
     - mode: 0755
-
-{% if crowd.mockup %}
-crowd_mockup_myconf_settings:
-  file.managed:
-    - name: /etc/mysql/my.cnf
-    - source: salt://crowd/files/my.cnf
-    - user: root
-    - group: root
-    - mode: 0644
+    - watch_in:
+      - service: crowd_service
 {% endif %}

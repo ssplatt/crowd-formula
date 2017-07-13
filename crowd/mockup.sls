@@ -27,6 +27,14 @@ crowd_mockup_install_mariadb:
   pkg.installed:
     - name: mariadb-server
 
+crowd_mockup_myconf_settings:
+  file.managed:
+    - name: /etc/mysql/my.cnf
+    - source: salt://crowd/files/my.cnf
+    - user: root
+    - group: root
+    - mode: 0644
+
 crowd_mockup_start_mariadb:
   service.running:
     - name: mysql
@@ -35,14 +43,14 @@ crowd_mockup_start_mariadb:
 crowd_mockup_setup_sql_db:
   mysql_database.present:
     - name: crowd
-    
+
 crowd_mockup_setup_sql_user:
   mysql_user.present:
     - name: crowduser
     - host: localhost
     - password: crowdpassword
     - connection_charset: utf8
-    
+
 crowd_mockup_sql_grants:
   mysql_grants.present:
     - grant: all privileges
