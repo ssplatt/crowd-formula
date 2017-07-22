@@ -6,9 +6,8 @@ crowd:
   mockup: false
   app_name: atlassian-crowd
   version: 2.12.0
-  pkg_hash: f53d9d6c1028c6f12ec4292579608fce5f926e40437d7795859e765584d2d6cd
+  pkg_hash: 476c1a1fd5eca64bfa15483c9f41efb3
   required_java: openjdk-7-jre-headless
-  required_pkgs_repo: jessie
   service:
     name: crowd
     state: dead

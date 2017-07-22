@@ -2,6 +2,7 @@
 ---
 driver:
   name: docker
+  image: debian:8
 
 provisioner:
   name: salt_solo
@@ -10,19 +11,25 @@ provisioner:
     base:
       "*":
         - crowd
+  pillars:
+    top.sls:
+      base:
+        "*":
+          - crowd
 
 platforms:
-  - name: debian-8
+  - name: debian
 
 suites:
   - name: default
+    provisioner:
+      pillars:
+        crowd.sls:
+          crowd:
+            enabled: true
+            mockup: true
 
   - name: custom
     provisioner:
       pillars-from-files:
         crowd.sls: pillar-custom.sls
-      pillars:
-        top.sls:
-          base:
-            "*":
-              - crowd

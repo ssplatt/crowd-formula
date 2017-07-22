@@ -1,6 +1,5 @@
 # vim: ft=sls
-# How to install crowd
-{%- from "crowd/map.jinja" import crowd with context %}
+{% from "crowd/map.jinja" import crowd with context %}
 
 debian_backports_repo:
   pkgrepo.managed:
@@ -23,6 +22,7 @@ crowd_mockup_user:
     - home: /var/atlassian/crowd
     - shell: /bin/sh
 
+{% if crowd.mysql_connector is defined %}
 crowd_mockup_install_mariadb:
   pkg.installed:
     - name: mariadb-server
@@ -57,3 +57,4 @@ crowd_mockup_sql_grants:
     - database: crowd.*
     - user: crowduser
     - host: localhost
+{% endif %}

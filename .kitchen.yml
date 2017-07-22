@@ -10,20 +10,25 @@ provisioner:
     base:
       "*":
         - crowd
+  pillars:
+    top.sls:
+      base:
+        "*":
+          - crowd
 
 platforms:
   - name: bento/debian-8.8
 
 suites:
   - name: default
+    provisioner:
+      pillars:
+        crowd.sls:
+          crowd:
+            enabled: true
+            mockup: true
 
   - name: custom
     provisioner:
       pillars-from-files:
         crowd.sls: pillar-custom.sls
-      pillars:
-        top.sls:
-          base:
-            "*":
-              - crowd
-
