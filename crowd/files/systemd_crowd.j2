@@ -1,0 +1,14 @@
+{%- from "crowd/map.jinja" import crowd with context -%}
+[Unit]
+Description=Crowd Identity management for web apps
+After=network.target
+
+[Service]
+Type=forking
+User=crowd
+PIDFile=/opt/{{ crowd.app_name }}/apache-tomcat/work/catalina.pid
+ExecStart=/opt/{{ crowd.app_name }}/start_crowd.sh
+ExecStop=/opt/{{ crowd.app_name }}/stop_crowd.sh
+
+[Install]
+WantedBy=multi-user.target

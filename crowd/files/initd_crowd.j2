@@ -14,23 +14,23 @@
 # Based on script at http://www.bifrost.org/problems.html
  
 RUN_AS_USER=crowd
-CATALINA_HOME=/opt/{{ crowd.app_name }}/apache-tomcat
+CROWD_HOME=/opt/{{ crowd.app_name }}
  
 start() {
         echo "Starting Crowd: "
         if [ "x$USER" != "x$RUN_AS_USER" ]; then
-          su - $RUN_AS_USER -c "$CATALINA_HOME/bin/startup.sh"
+          su - $RUN_AS_USER -c "$CROWD_HOME/start_crowd.sh"
         else
-          $CATALINA_HOME/bin/startup.sh
+          $CROWD_HOME/start_crowd.sh
         fi
         echo "done."
 }
 stop() {
         echo "Shutting down Crowd: "
         if [ "x$USER" != "x$RUN_AS_USER" ]; then
-          su - $RUN_AS_USER -c "$CATALINA_HOME/bin/shutdown.sh"
+          su - $RUN_AS_USER -c "$CROWD_HOME/stop_crowd.sh"
         else
-          $CATALINA_HOME/bin/shutdown.sh
+          $CROWD_HOME/stop_crowd.sh
         fi
         echo "done."
 }
@@ -46,7 +46,7 @@ case "$1" in
         stop
         sleep 10
         #echo "Hard killing any remaining threads.."
-        #kill -9 `cat $CATALINA_HOME/work/catalina.pid`
+        #kill -9 `cat $CROWD_HOME/apache-tomcat/work/catalina.pid`
         start
         ;;
   *)

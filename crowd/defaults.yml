@@ -5,11 +5,10 @@ crowd:
   enabled: false
   mockup: false
   app_name: atlassian-crowd
-  version: 2.8.4
-  pkg_hash: 7ae5a8c1928e997f8a220475db13f1fd374ee2b87e4a8d6cd5bb431378bfcf91
+  version: 2.12.0
+  pkg_hash: 476c1a1fd5eca64bfa15483c9f41efb3
   required_java: openjdk-7-jre-headless
   service:
     name: crowd
     state: dead
     enable: false
-  
